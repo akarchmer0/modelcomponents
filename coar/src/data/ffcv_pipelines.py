@@ -248,7 +248,7 @@ IMAGE_PIPELINES = {
 
 def get_image_decoder(decoder_name, image_size, center_crop_ratio=224/256.,is_rgb=True):
     img_decoders = {
-        'simple': lambda sz: DC.SimpleRGBImageDecoder(is_rgb=is_rgb),
+        'simple': lambda sz: DC.SimpleRGBImageDecoder(),
         'resized': lambda sz: DC.CenterCropRGBImageDecoder((sz,sz),1,is_rgb=is_rgb),
         'center_crop': lambda sz,rt: DC.CenterCropRGBImageDecoder((sz,sz),rt,is_rgb=is_rgb),
         'random_resized_crop': lambda sz: DC.RandomResizedCropRGBImageDecoder((sz,sz),is_rgb=is_rgb),

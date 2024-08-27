@@ -123,7 +123,7 @@ def get_ffcv_loader(beton_path, batch_size, num_workers, pipelines,
     return Loader(
         fname=beton_path,
         batch_size=batch_size,
-        num_workers=num_workers,
+        num_workers=2,
         order=order,
         os_cache=os_cache,
         indices=indices,
