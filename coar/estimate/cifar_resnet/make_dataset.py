@@ -18,7 +18,7 @@ from src.utils import data_utils
 from src.utils import common_utils
 
 DEVICE = torch.device(0)
-DEBUG_MODE = True
+DEBUG_MODE = False
 
 MODEL_URL="https://www.dropbox.com/scl/fi/ar7fput9rzyxebep0cgqf/cifar.pt?rlkey=y4hmrj94o4vxe4so55z1ebefw&dl=0"
 BETON_URL="https://www.dropbox.com/scl/fi/4zj04xkgnb5mpw4aosvrt/cifar10.beton?rlkey=wspv74qs0h7l5cbxmzntmsywe&dl=0"
@@ -34,6 +34,25 @@ def get_data(beton_path, subsample_skip, batch_size, num_workers):
     """
     pipeline = ffcv_pipelines.get_pipelines('cifar10', 'test', DEVICE)
     indices = np.arange(0, 10_000, subsample_skip)
+
+    loaders = {
+        'test': data_utils.get_ffcv_loader(beton_path, batch_size, num_workers,
+                                           pipeline, False, indices=indices)
+    }
+
+    return loaders
+
+def get_random_data(beton_path, n, batch_size, num_workers):
+    """
+    Args
+    - subsample_skip: int (skip factor for dataset subsampling)
+    - batch_size: int (batch size)
+    - num_workers: int (number of workers)
+    Output
+    - loaders: dict (dataloaders)
+    """
+    pipeline = ffcv_pipelines.get_pipelines('cifar10', 'test', DEVICE)
+    indices = np.random.randint(0, 10_000, size=n)
 
     loaders = {
         'test': data_utils.get_ffcv_loader(beton_path, batch_size, num_workers,
@@ -189,7 +208,7 @@ def run():
     # get model and dataloader(s)
     model = get_model(model_path)
     mod_comps = get_model_components(model)
-    loaders = get_data(beton_path, args.expt.subsample_skip, args.expt.batch_size, args.expt.num_workers)
+    loaders = get_random_data(beton_path, 50, args.expt.batch_size, args.expt.num_workers)
 
     # get data-store indices
     indices = list(range(args.expt.start_index, args.expt.end_index))

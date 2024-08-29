@@ -39,7 +39,7 @@ def get_component_segments(comp_dims, comp_name):
 
 def update_mmapped_file(dm_dir, index, out):
     dm_dir = Path(dm_dir)
-    print("Updated: ")
+    # print("Updated: ")
     # out
     for k, v in out.items():
         mmap = np.lib.format.open_memmap(dm_dir / "{}.npy".format(k), mode="r+")
@@ -49,10 +49,10 @@ def update_mmapped_file(dm_dir, index, out):
             s = "{} {:.2f}".format(k, (v > 0).mean())
         else:
             s = k
-        print(s, end=",", flush=True)
+        # print(s, end=",", flush=True)
 
     # completed
     cmp = np.lib.format.open_memmap(dm_dir / "_completed.npy", mode="r+")
     cmp[index] = True
     cmp[index : (index + 1)].flush()
-    print()
+    # print()
