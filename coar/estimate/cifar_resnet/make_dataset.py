@@ -213,7 +213,7 @@ def run():
     # get model and dataloader(s)
     model = get_model(model_path)
     mod_comps = get_model_components(model)
-    loaders = get_random_data(beton_path, 50, args.expt.batch_size, args.expt.num_workers)
+    loaders = get_random_data(beton_path, 5, args.expt.batch_size, args.expt.num_workers)
 
     # get data-store indices
     indices = list(range(args.expt.start_index, args.expt.end_index))
