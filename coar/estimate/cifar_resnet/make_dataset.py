@@ -54,6 +54,14 @@ def get_random_data(beton_path, n, batch_size, num_workers):
     pipeline = ffcv_pipelines.get_pipelines('cifar10', 'test', DEVICE)
     indices = np.random.randint(0, 10_000, size=n)
 
+    print(f'Random test image indices chosen: {indices}')
+
+    filename = "test_image_indices.npy"
+
+	np.save(filename, indices)
+
+	print(f'Indices saved to {filename}.')
+
     loaders = {
         'test': data_utils.get_ffcv_loader(beton_path, batch_size, num_workers,
                                            pipeline, False, indices=indices)
