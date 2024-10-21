@@ -29,7 +29,7 @@ def get_mask(mask_dim, keep_prob):
 
 def get_random_walk_mask(mask_dim, previous_mask):
     idx = np.random.randint(mask_dim)
-    previous_mask[idx] = (previous_mask[idx] + 1) % 2
+    previous_mask[idx] = previous_mask[idx] ^ True
     previous_mask = previous_mask.astype(bool)
     
     return previous_mask
