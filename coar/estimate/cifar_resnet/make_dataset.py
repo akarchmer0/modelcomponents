@@ -244,7 +244,7 @@ def run():
             print ('Running index {}'.format(index), flush=True)
 
         if i==0:
-            mask = np.ones(args.expt.mask_size)
+            mask = np.ones(args.expt.mask_size, dtype=bool)
         else:
             mask = ndm_utils.get_random_walk_mask(args.expt.mask_size, previous_mask)
 
