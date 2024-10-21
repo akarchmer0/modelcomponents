@@ -213,7 +213,7 @@ def run():
     # get model and dataloader(s)
     model = get_model(model_path)
     mod_comps = get_model_components(model)
-    loaders = get_random_data(beton_path, 5, args.expt.batch_size, args.expt.num_workers)
+    loaders = get_random_data(beton_path, 16, args.expt.batch_size, args.expt.num_workers)
 
     # get data-store indices
     indices = list(range(args.expt.start_index, args.expt.end_index))
@@ -228,7 +228,7 @@ def run():
     # ablate and evaluate
     completed = np.lib.format.open_memmap(base_dir / '_completed.npy', mode='r')
 
-    for index in tqdm(indices):
+    for i,index in enumerate(indices):
         if index >= len(completed):
             if DEBUG_MODE:
                 print (f'Skip index {index} (out of bounds)')
@@ -242,8 +242,14 @@ def run():
         # mask stats
         if DEBUG_MODE:
             print ('Running index {}'.format(index), flush=True)
-        mask = ndm_utils.get_mask(args.expt.mask_size, args.expt.subsample_prob)
+
+        if i==0:
+            mask = np.ones(args.expt.mask_size)
+        else:
+            mask = ndm_utils.get_random_walk_mask(args.expt.mask_size, previous_mask)
+
         eval_stats = evaluate_masked_model(model, mask, loaders, mod_comps)
+        previous_mask = mask
 
         # update data-store
         out = {'masks': mask}
