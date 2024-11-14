@@ -243,10 +243,14 @@ def run():
         if DEBUG_MODE:
             print ('Running index {}'.format(index), flush=True)
 
-        if i==0:
-            mask = np.ones(args.expt.mask_size, dtype=bool)
-        else:
-            mask = ndm_utils.get_random_walk_mask(args.expt.mask_size, previous_mask)
+        # RANDOM WALK
+        # if i==0:
+        #     mask = np.ones(args.expt.mask_size, dtype=bool)
+        # else:
+        #     mask = ndm_utils.get_random_walk_mask(args.expt.mask_size, previous_mask)
+
+        # BINOMIAL
+        mask = ndm_utils.get_mask(args.expt.mask_size, args.expt.subsample_prob)
 
         eval_stats = evaluate_masked_model(model, mask, loaders, mod_comps)
         previous_mask = mask
